@@ -1,15 +1,27 @@
-PROPRIETARY LICENSE
+# BlackRoad OS, Inc. - Proprietary License
 
-Copyright (c) 2026 BlackRoad OS, Inc.
-All Rights Reserved.
+Copyright © 2024-2026 BlackRoad OS, Inc. All Rights Reserved.
 
-CEO: Alexa Amundson
+## PROPRIETARY SOFTWARE
 
-This AI model and associated code is PROPRIETARY to BlackRoad OS, Inc.
+This software and associated documentation files (the "Software") are proprietary
+and confidential to BlackRoad OS, Inc.
 
-CORE PRODUCT: API layer above Google, OpenAI, and Anthropic that manages
-AI model memory and continuity, enabling companies to operate exclusively by AI.
+## RESTRICTIONS
 
-NOT for commercial resale. Testing and educational purposes only.
+1. **Testing and evaluation purposes only**
+2. **NO commercial use** without explicit written permission
+3. **NO redistribution** in any form
+4. **NO modification** or derivative works without permission
+5. Software provided "AS IS" without warranty
 
-For licensing: blackroad.systems@gmail.com
+## PUBLIC VISIBILITY
+
+While publicly visible for transparency:
+- Viewing and learning is permitted
+- Using code requires explicit permission
+- All rights remain with BlackRoad OS, Inc.
+
+**Contact**: blackroad.systems@gmail.com
+
+🖤🛣️ BlackRoad OS - The AI Operating System Revolution
