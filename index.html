@@ -289,360 +289,494 @@
   }
   </script>
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html, body {
-      background: #000000;
-      color: #ffffff;
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink:   #FF1D6C;
+      --amber:  #F5A623;
+      --blue:   #2979FF;
+      --violet: #9C27B0;
+      --black:  #000000;
+      --white:  #ffffff;
+      --gray:   #111111;
+      --muted:  #666666;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
       font-family: 'JetBrains Mono', monospace;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
-      background: #000000;
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #ffffff;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #1a1a1a;
     }
+    .logo { font-size: 1rem; font-weight: 700; letter-spacing: .08em; }
+    .logo span { color: var(--pink); }
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    nav a { font-size: 0.65rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    nav a:hover { color: var(--white); }
 
-    .logo {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-    }
-
-    nav {
-      font-size: 0.65rem;
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      color: #888888;
-      text-decoration: none;
-    }
-
-    nav a:hover { color: #ffffff; }
-
+    /* Hero */
     .hero {
-      background: #000000;
-      padding: 48px 24px 36px;
-      border-bottom: 1px solid #ffffff;
+      padding: 72px 24px 56px;
+      text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(255,29,108,0.18) 0%, transparent 70%);
+      border-bottom: 1px solid #1a1a1a;
     }
-
-    .hero-label {
-      font-size: 0.6rem;
-      color: #555555;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.58rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--pink); border: 1px solid rgba(255,29,108,0.4);
+      padding: 5px 14px; margin-bottom: 22px;
     }
+    .hero h1 { font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; line-height: 1.05; margin-bottom: 18px; }
+    .hero h1 em { font-style: normal; color: var(--pink); }
+    .hero p { max-width: 540px; margin: 0 auto 32px; font-size: 0.78rem; color: #888; line-height: 2; }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-    .hero h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.05;
+    .btn-primary {
+      background: var(--pink); color: var(--white); border: none;
+      padding: 14px 28px; font-family: inherit; font-size: 0.72rem;
+      font-weight: 700; letter-spacing: .08em; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity .2s, transform .15s;
+      animation: pulse-ring 2.5s infinite;
     }
-
-    .hero p {
-      margin-top: 12px;
-      font-size: 0.7rem;
-      color: #666666;
-      line-height: 1.9;
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); animation: none; }
+    .btn-secondary {
+      background: transparent; color: var(--white); border: 1px solid #333;
+      padding: 14px 28px; font-family: inherit; font-size: 0.72rem;
+      letter-spacing: .08em; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color .2s, color .2s;
     }
+    .btn-secondary:hover { border-color: var(--white); }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
+    /* Demo Portal */
+    .demo-section {
+      padding: 56px 24px; max-width: 900px; margin: 0 auto;
     }
+    .section-title { font-size: 0.6rem; color: var(--pink); letter-spacing: .22em; text-transform: uppercase; margin-bottom: 8px; }
+    .section-h2 { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 700; margin-bottom: 6px; }
+    .section-sub { font-size: 0.7rem; color: var(--muted); margin-bottom: 28px; line-height: 1.9; }
 
-    .section {
-      background: #000000;
-      padding: 32px 24px;
-      border-bottom: 1px solid #ffffff;
+    .demo-portal { border: 1px solid #2a2a2a; background: var(--gray); overflow: hidden; }
+    .demo-tabs { display: flex; border-bottom: 1px solid #222; }
+    .demo-tab {
+      padding: 10px 18px; font-family: inherit; font-size: 0.62rem;
+      letter-spacing: .1em; background: none; border: none; color: var(--muted);
+      cursor: pointer; transition: color .2s, background .2s; border-bottom: 2px solid transparent;
     }
+    .demo-tab.active { color: var(--pink); border-bottom-color: var(--pink); }
+    .demo-tab:hover { color: var(--white); background: #1a1a1a; }
+    .demo-pane { display: none; padding: 24px; }
+    .demo-pane.active { display: block; }
 
-    .section-label {
-      font-size: 0.58rem;
-      color: #555555;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .demo-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+    .demo-input {
+      flex: 1; min-width: 200px;
+      background: #0a0a0a; border: 1px solid #333; color: var(--white);
+      font-family: inherit; font-size: 0.7rem; padding: 10px 14px; outline: none;
+      transition: border-color .2s;
     }
-
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #333333;
+    .demo-input:focus { border-color: var(--pink); }
+    .demo-select {
+      background: #0a0a0a; border: 1px solid #333; color: var(--white);
+      font-family: inherit; font-size: 0.65rem; padding: 10px 12px; outline: none; cursor: pointer;
     }
-
-    .enterprise-link {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      text-decoration: none;
-      padding: 14px 16px;
-      border: 1px solid #ffffff;
-      background: #000000;
+    .demo-btn {
+      background: var(--pink); color: var(--white); border: none;
+      padding: 10px 20px; font-family: inherit; font-size: 0.65rem;
+      font-weight: 700; letter-spacing: .06em; cursor: pointer;
+      transition: opacity .2s; white-space: nowrap;
     }
-
-    .enterprise-link .name {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #ffffff;
+    .demo-btn:hover { opacity: .85; }
+    .demo-btn.blue { background: var(--blue); }
+    .demo-btn.amber { background: var(--amber); color: #000; }
+    .demo-output {
+      background: #050505; border: 1px solid #1a1a1a; padding: 14px;
+      min-height: 120px; font-size: 0.65rem; line-height: 1.9; color: #aaa;
+      overflow-y: auto; max-height: 300px;
     }
-
-    .enterprise-link .url {
-      font-size: 0.58rem;
-      color: #555555;
-      word-break: break-all;
+    .demo-output .ok   { color: #4ade80; }
+    .demo-output .info { color: var(--blue); }
+    .demo-output .sim  { color: var(--amber); }
+    .demo-output .pink { color: var(--pink); }
+    .demo-output .dim  { color: #444; }
+    .demo-output .mem-card {
+      border: 1px solid #1e1e1e; padding: 8px 10px; margin-bottom: 6px; background: #0c0c0c;
     }
+    .demo-output .mem-card .mem-type { color: var(--violet); font-size: 0.58rem; }
+    .demo-output .mem-card .mem-content { color: var(--white); margin-top: 3px; }
+    .demo-output .mem-card .mem-meta { color: #444; font-size: 0.58rem; margin-top: 3px; }
 
-    .org-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    /* Feature cards */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px; background: #1a1a1a; border: 1px solid #1a1a1a; margin-top: 32px;
     }
+    .feature-card { background: var(--black); padding: 22px 20px; transition: background .2s; }
+    .feature-card:hover { background: #0d0d0d; }
+    .feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+    .feature-title { font-size: 0.72rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-desc { font-size: 0.62rem; color: var(--muted); line-height: 1.8; }
 
-    .org-list a {
-      background: #000000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 10px;
-      font-size: 0.7rem;
-      color: #aaaaaa;
-      text-decoration: none;
+    /* Portals */
+    .portals-section { padding: 56px 24px; border-top: 1px solid #1a1a1a; max-width: 1100px; margin: 0 auto; }
+    .portals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 28px; }
+    .portal-card {
+      border: 1px solid #222; background: var(--gray); padding: 20px;
+      text-decoration: none; color: var(--white);
+      display: flex; flex-direction: column; gap: 8px;
+      transition: border-color .2s, background .2s, transform .15s; position: relative;
     }
+    .portal-card:hover { border-color: var(--pink); background: #0f0f0f; transform: translateY(-2px); }
+    .portal-card .pc-label { font-size: 0.55rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .portal-card .pc-name { font-size: 0.9rem; font-weight: 700; }
+    .portal-card .pc-url { font-size: 0.6rem; color: #444; word-break: break-all; }
+    .portal-card .pc-desc { font-size: 0.63rem; color: #888; line-height: 1.7; }
+    .portal-card .pc-arrow { position: absolute; top: 16px; right: 16px; color: #333; font-size: 0.8rem; transition: color .2s; }
+    .portal-card:hover .pc-arrow { color: var(--pink); }
+    .portal-card .pc-tag { display: inline-block; font-size: 0.52rem; letter-spacing: .12em; text-transform: uppercase; padding: 2px 7px; border: 1px solid; width: fit-content; margin-top: 4px; }
+    .tag-pink   { border-color: rgba(255,29,108,.5); color: var(--pink); }
+    .tag-blue   { border-color: rgba(41,121,255,.5); color: var(--blue); }
+    .tag-amber  { border-color: rgba(245,166,35,.5); color: var(--amber); }
+    .tag-violet { border-color: rgba(156,39,176,.5); color: var(--violet); }
 
-    .org-list a:hover { color: #ffffff; }
-
-    .org-list a .arrow {
-      color: #444444;
-      font-size: 0.65rem;
-      flex-shrink: 0;
-      margin-left: 8px;
+    /* Organizations */
+    .orgs-section { padding: 56px 24px; border-top: 1px solid #1a1a1a; max-width: 1100px; margin: 0 auto; }
+    .orgs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 4px; margin-top: 28px; }
+    .org-card {
+      background: #080808; border: 1px solid #1a1a1a; padding: 14px 16px;
+      text-decoration: none; color: #999; font-size: 0.65rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: color .2s, border-color .2s;
     }
+    .org-card:hover { color: var(--white); border-color: #333; }
+    .org-card .oc-arrow { color: #333; font-size: 0.6rem; transition: color .2s; }
+    .org-card:hover .oc-arrow { color: var(--pink); }
 
-    .domain-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    /* Domains */
+    .domains-section { padding: 56px 24px; border-top: 1px solid #1a1a1a; max-width: 1100px; margin: 0 auto; }
+    .domains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 4px; margin-top: 28px; }
+    .domain-link {
+      background: #050505; border: 1px solid #1a1a1a; padding: 12px 16px;
+      text-decoration: none; color: #666; font-size: 0.65rem;
+      display: flex; align-items: center; gap: 10px;
+      transition: color .2s, border-color .2s;
     }
+    .domain-link::before { content: '\2192'; color: #222; font-size: 0.6rem; flex-shrink: 0; transition: color .2s; }
+    .domain-link:hover { color: var(--white); border-color: #333; }
+    .domain-link:hover::before { color: var(--amber); }
 
-    .domain-item {
-      background: #000000;
-      display: flex;
-      align-items: center;
-      padding: 8px 10px;
-      font-size: 0.7rem;
-      color: #888888;
-    }
-
-    .domain-item:hover { color: #ffffff; }
-
-    .domain-item::before {
-      content: '—';
-      color: #333333;
-      margin-right: 10px;
-      font-size: 0.6rem;
-      flex-shrink: 0;
-    }
-
-    /* ── SEO keyword section (visible, crawlable, on-brand) ── */
-    .seo-section {
-      background: #000000;
-      padding: 32px 24px;
-      border-top: 1px solid #1a1a1a;
-    }
-
-    .seo-section h2 {
-      font-size: 0.58rem;
-      color: #333333;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .seo-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .seo-tag {
-      font-size: 0.55rem;
-      color: #2a2a2a;
-      border: 1px solid #1a1a1a;
-      padding: 3px 7px;
-    }
+    /* SEO */
+    .seo-section { padding: 32px 24px; border-top: 1px solid #0f0f0f; max-width: 1100px; margin: 0 auto; }
+    .seo-section h2 { font-size: 0.52rem; color: #222; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 12px; }
+    .seo-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .seo-tag { font-size: 0.52rem; color: #1e1e1e; border: 1px solid #111; padding: 2px 6px; }
 
     footer {
-      background: #000000;
-      padding: 20px 24px;
-      border-top: 1px solid #333333;
-      font-size: 0.58rem;
-      color: #444444;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      border-top: 1px solid #111; padding: 20px 24px; font-size: 0.58rem; color: #333;
+      display: flex; flex-direction: column; gap: 4px;
+      max-width: 1100px; margin: 0 auto;
     }
 
     @media (min-width: 768px) {
-      header { padding: 20px 40px; }
-      .hero { padding: 56px 40px 44px; }
-      .hero h1 { font-size: 2.4rem; }
-      .grid { grid-template-columns: repeat(3, 1fr); }
-      .section { padding: 36px 40px; border-right: 1px solid #ffffff; }
-      .section:last-child { border-right: none; }
-      .seo-section { padding: 32px 40px; }
-      footer { padding: 20px 40px; flex-direction: row; justify-content: space-between; }
+      header { padding: 16px 40px; }
+      .hero { padding: 96px 40px 72px; }
+      .demo-section, .portals-section, .orgs-section, .domains-section, .seo-section { padding: 72px 40px; }
+      footer { padding: 24px 40px; flex-direction: row; justify-content: space-between; }
+    }
+
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(255,29,108,.4); }
+      70%  { box-shadow: 0 0 0 12px rgba(255,29,108,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,29,108,0); }
     }
   </style>
 </head>
 <body itemscope itemtype="https://schema.org/WebPage">
 
   <header role="banner">
-    <span class="logo" itemprop="name">BlackRoad</span>
+    <span class="logo" itemprop="name">Black<span>Road</span></span>
     <nav role="navigation" aria-label="Primary navigation">
-      <a href="https://github.com/enterprises/blackroad-os" rel="noopener noreferrer" aria-label="BlackRoad GitHub Enterprise">enterprise</a>
-      <a href="https://github.com/BlackRoad-AI" rel="noopener noreferrer" aria-label="BlackRoad GitHub Organizations">orgs</a>
-      <a href="#domains" aria-label="BlackRoad registered domains">domains</a>
-      <a href="https://github.com/BlackRoad-AI/blackroad-ai-memory-bridge" rel="noopener noreferrer" aria-label="BlackRoad AI Memory Bridge documentation">docs</a>
+      <a href="#demo"    aria-label="Live demo">demo</a>
+      <a href="#portals" aria-label="BlackRoad portals">portals</a>
+      <a href="#orgs"    aria-label="GitHub organizations">orgs</a>
+      <a href="#domains" aria-label="Registered domains">domains</a>
+      <a href="https://github.com/BlackRoad-AI/blackroad-ai-memory-bridge"
+         target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">github &#x2197;</a>
     </nav>
   </header>
 
   <main role="main" itemprop="mainContentOfPage">
 
-    <div class="hero" aria-labelledby="hero-title">
-      <div class="hero-label" aria-hidden="true">Directory v1.0</div>
-      <h1 id="hero-title">Infrastructure<br>Index</h1>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-badge">BlackRoad AI &middot; Memory Bridge</div>
+      <h1 id="hero-title">Give your AI<br><em>a memory</em></h1>
       <p itemprop="description">
-        GitHub enterprise, organizations, and registered domains.<br>
-        BlackRoad OS, Inc. — Delaware C-Corp. AI · Cloud · Labs · Security · OS · Media · Studio · Ventures.
+        Persistent, searchable memory for AI agents &mdash; no cloud, no GPU, no setup.<br>
+        Click below and watch it work right now.
       </p>
-    </div>
-
-    <div class="grid" role="region" aria-label="BlackRoad infrastructure sections">
-
-      <section class="section" aria-labelledby="enterprise-label">
-        <div class="section-label" id="enterprise-label">github enterprise</div>
-        <a class="enterprise-link"
-           href="https://github.com/enterprises/blackroad-os"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="BlackRoad OS GitHub Enterprise — blackroad-os"
-           itemprop="url">
-          <span class="name" itemprop="name">blackroad-os</span>
-          <span class="url">github.com/enterprises/blackroad-os</span>
+      <div class="cta-row">
+        <a href="#demo" class="btn-primary" aria-label="Try the live demo">
+          &#x25B6; Try it now &mdash; live demo
         </a>
-      </section>
+        <a href="https://github.com/BlackRoad-AI/blackroad-ai-memory-bridge"
+           target="_blank" rel="noopener noreferrer"
+           class="btn-secondary" aria-label="View source on GitHub">
+          View on GitHub &#x2197;
+        </a>
+      </div>
+    </section>
 
-      <section class="section" aria-labelledby="orgs-label" itemprop="hasPart" itemscope itemtype="https://schema.org/ItemList">
-        <div class="section-label" id="orgs-label">organizations · 15</div>
-        <meta itemprop="numberOfItems" content="15">
-        <nav class="org-list" aria-label="BlackRoad GitHub organizations">
-          <a href="https://github.com/Blackbox-Enterprises" target="_blank" rel="noopener noreferrer"
-             aria-label="Blackbox-Enterprises GitHub organization" itemprop="url">
-            Blackbox-Enterprises<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-AI" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-AI GitHub organization — AI memory bridge, semantic search, vector store" itemprop="url">
-            BlackRoad-AI<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Archive" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Archive GitHub organization" itemprop="url">
-            BlackRoad-Archive<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Cloud" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Cloud GitHub organization — BlackRoad cloud infrastructure" itemprop="url">
-            BlackRoad-Cloud<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Education" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Education GitHub organization" itemprop="url">
-            BlackRoad-Education<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Foundation" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Foundation GitHub organization" itemprop="url">
-            BlackRoad-Foundation<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Gov" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Gov GitHub organization" itemprop="url">
-            BlackRoad-Gov<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Hardware" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Hardware GitHub organization" itemprop="url">
-            BlackRoad-Hardware<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Interactive" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Interactive GitHub organization" itemprop="url">
-            BlackRoad-Interactive<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Labs" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Labs GitHub organization — BlackRoad research and development labs" itemprop="url">
-            BlackRoad-Labs<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Media" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Media GitHub organization" itemprop="url">
-            BlackRoad-Media<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-OS GitHub organization — BlackRoad operating system" itemprop="url">
-            BlackRoad-OS<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Security" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Security GitHub organization — BlackRoad security infrastructure" itemprop="url">
-            BlackRoad-Security<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Studio" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Studio GitHub organization — BlackRoad creative studio" itemprop="url">
-            BlackRoad-Studio<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-          <a href="https://github.com/BlackRoad-Ventures" target="_blank" rel="noopener noreferrer"
-             aria-label="BlackRoad-Ventures GitHub organization" itemprop="url">
-            BlackRoad-Ventures<span class="arrow" aria-hidden="true">↗</span>
-          </a>
-        </nav>
-      </section>
+    <!-- Interactive Demo -->
+    <section id="demo" class="demo-section" aria-labelledby="demo-title">
+      <div class="section-title">live demo</div>
+      <h2 class="section-h2" id="demo-title">See it work right now</h2>
+      <p class="section-sub">
+        No install. No account. Just type something and watch AI memory in action.<br>
+        Runs entirely in your browser.
+      </p>
 
-      <section class="section" id="domains" aria-labelledby="domains-label" itemprop="hasPart" itemscope itemtype="https://schema.org/ItemList">
-        <div class="section-label" id="domains-label">domains · 19</div>
-        <meta itemprop="numberOfItems" content="19">
-        <div class="domain-list" role="list" aria-label="BlackRoad registered domains">
-          <div class="domain-item" role="listitem" itemprop="url">blackboxprogramming.io</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroad.company</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroad.io</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroad.me</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroad.network</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroad.systems</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadai.com</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadinc.us</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadqi.com</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadquantum.com</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadquantum.info</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadquantum.net</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadquantum.shop</div>
-          <div class="domain-item" role="listitem" itemprop="url">blackroadquantum.store</div>
-          <div class="domain-item" role="listitem" itemprop="url">lucidia.earth</div>
-          <div class="domain-item" role="listitem" itemprop="url">lucidia.studio</div>
-          <div class="domain-item" role="listitem" itemprop="url">lucidiaqi.com</div>
-          <div class="domain-item" role="listitem" itemprop="url">roadchain.io</div>
-          <div class="domain-item" role="listitem" itemprop="url">roadcoin.io</div>
+      <div class="demo-portal" role="region" aria-label="Interactive memory bridge demo">
+        <div class="demo-tabs" role="tablist">
+          <button class="demo-tab active" role="tab" aria-selected="true"
+                  onclick="switchTab('store')" id="tab-store">&#x1F4BE; Store Memory</button>
+          <button class="demo-tab" role="tab" aria-selected="false"
+                  onclick="switchTab('search')" id="tab-search">&#x1F50D; Search</button>
+          <button class="demo-tab" role="tab" aria-selected="false"
+                  onclick="switchTab('list')" id="tab-list">&#x1F4CB; All Memories</button>
         </div>
-      </section>
 
-    </div>
+        <div id="pane-store" class="demo-pane active" role="tabpanel" aria-labelledby="tab-store">
+          <div class="demo-row">
+            <input id="store-content" class="demo-input"
+                   placeholder="Type anything to remember&#x2026; e.g. 'I prefer Python for backend'" />
+            <select id="store-type" class="demo-select" aria-label="Memory type">
+              <option value="semantic">semantic</option>
+              <option value="episodic">episodic</option>
+              <option value="working">working</option>
+              <option value="procedural">procedural</option>
+            </select>
+            <button class="demo-btn" onclick="storeMemory()" aria-label="Store this memory">Store &#x2192;</button>
+          </div>
+          <div id="store-output" class="demo-output" aria-live="polite">
+            <span class="dim">// Type something above and press Store &#x2192;</span>
+          </div>
+        </div>
 
-    <!-- ── Crawlable keyword / discovery section ─────────────────────── -->
+        <div id="pane-search" class="demo-pane" role="tabpanel" aria-labelledby="tab-search">
+          <div class="demo-row">
+            <input id="search-query" class="demo-input"
+                   placeholder="Search memories&#x2026; e.g. 'programming language'" />
+            <button class="demo-btn blue" onclick="searchMemories()" aria-label="Search memories">Search &#x2192;</button>
+          </div>
+          <div id="search-output" class="demo-output" aria-live="polite">
+            <span class="dim">// Store some memories first, then search here</span>
+          </div>
+        </div>
+
+        <div id="pane-list" class="demo-pane" role="tabpanel" aria-labelledby="tab-list">
+          <div class="demo-row">
+            <button class="demo-btn amber" onclick="listMemories()" aria-label="List all memories">Refresh &#x2192;</button>
+            <button class="demo-btn" style="background:#333" onclick="clearMemories()" aria-label="Clear all memories">Clear all</button>
+          </div>
+          <div id="list-output" class="demo-output" aria-live="polite">
+            <span class="dim">// Your stored memories will appear here</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="features-grid" role="list" aria-label="Memory bridge features">
+        <div class="feature-card" role="listitem">
+          <div class="feature-icon">&#x1F9E0;</div>
+          <div class="feature-title">4 Memory Types</div>
+          <div class="feature-desc">Episodic, semantic, working, procedural &mdash; just like human memory.</div>
+        </div>
+        <div class="feature-card" role="listitem">
+          <div class="feature-icon">&#x1F50D;</div>
+          <div class="feature-title">Semantic Search</div>
+          <div class="feature-desc">Find related memories by meaning, not just exact keywords.</div>
+        </div>
+        <div class="feature-card" role="listitem">
+          <div class="feature-icon">&#x26A1;</div>
+          <div class="feature-title">Zero Setup</div>
+          <div class="feature-desc">No cloud, no GPU, no API keys. SQLite runs on your machine.</div>
+        </div>
+        <div class="feature-card" role="listitem">
+          <div class="feature-icon">&#x1F501;</div>
+          <div class="feature-title">Auto-Consolidation</div>
+          <div class="feature-desc">Merges duplicates, prunes expired memories, promotes important ones.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portals -->
+    <section id="portals" class="portals-section" aria-labelledby="portals-title">
+      <div class="section-title">ecosystem</div>
+      <h2 class="section-h2" id="portals-title">BlackRoad Portals</h2>
+      <p class="section-sub">Click any portal to open it directly. No account needed to explore.</p>
+
+      <div class="portals-grid" role="list">
+
+        <a class="portal-card" href="https://blackroadai.com" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="BlackRoad AI">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">main portal</span>
+          <span class="pc-name">BlackRoad AI</span>
+          <span class="pc-url">blackroadai.com</span>
+          <span class="pc-desc">The primary BlackRoad AI platform &mdash; memory, agents, and infrastructure.</span>
+          <span class="pc-tag tag-pink">flagship</span>
+        </a>
+
+        <a class="portal-card" href="https://blackroad.io" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="BlackRoad IO">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">home</span>
+          <span class="pc-name">BlackRoad</span>
+          <span class="pc-url">blackroad.io</span>
+          <span class="pc-desc">BlackRoad OS, Inc. &mdash; building sovereign AI infrastructure.</span>
+          <span class="pc-tag tag-blue">home</span>
+        </a>
+
+        <a class="portal-card" href="https://lucidia.earth" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="Lucidia AI">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">AI assistant</span>
+          <span class="pc-name">Lucidia</span>
+          <span class="pc-url">lucidia.earth</span>
+          <span class="pc-desc">Meet Lucidia &mdash; the BlackRoad AI assistant powered by memory bridge.</span>
+          <span class="pc-tag tag-violet">AI agent</span>
+        </a>
+
+        <a class="portal-card" href="https://lucidia.studio" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="Lucidia Studio">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">creative AI</span>
+          <span class="pc-name">Lucidia Studio</span>
+          <span class="pc-url">lucidia.studio</span>
+          <span class="pc-desc">Creative AI tools and studio workspace built on BlackRoad infrastructure.</span>
+          <span class="pc-tag tag-violet">studio</span>
+        </a>
+
+        <a class="portal-card" href="https://blackroad.network" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="BlackRoad Network">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">network</span>
+          <span class="pc-name">BlackRoad Network</span>
+          <span class="pc-url">blackroad.network</span>
+          <span class="pc-desc">The BlackRoad distributed network and infrastructure layer.</span>
+          <span class="pc-tag tag-blue">network</span>
+        </a>
+
+        <a class="portal-card" href="https://roadchain.io" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="RoadChain">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">blockchain</span>
+          <span class="pc-name">RoadChain</span>
+          <span class="pc-url">roadchain.io</span>
+          <span class="pc-desc">Decentralized infrastructure chain powering the BlackRoad ecosystem.</span>
+          <span class="pc-tag tag-amber">chain</span>
+        </a>
+
+        <a class="portal-card" href="https://blackboxprogramming.io" target="_blank"
+           rel="noopener noreferrer" role="listitem" aria-label="BlackBox Programming">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">dev tools</span>
+          <span class="pc-name">BlackBox Programming</span>
+          <span class="pc-url">blackboxprogramming.io</span>
+          <span class="pc-desc">Developer tools and programming resources from the BlackRoad ecosystem.</span>
+          <span class="pc-tag tag-blue">dev</span>
+        </a>
+
+        <a class="portal-card"
+           href="https://github.com/BlackRoad-AI/blackroad-ai-memory-bridge"
+           target="_blank" rel="noopener noreferrer"
+           role="listitem" aria-label="Memory Bridge source code">
+          <span class="pc-arrow" aria-hidden="true">&#x2197;</span>
+          <span class="pc-label">open source</span>
+          <span class="pc-name">Memory Bridge</span>
+          <span class="pc-url">github.com/BlackRoad-AI/blackroad-ai-memory-bridge</span>
+          <span class="pc-desc">The source code for this memory bridge &mdash; view, fork, or contribute.</span>
+          <span class="pc-tag tag-pink">this repo</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Organizations -->
+    <section id="orgs" class="orgs-section"
+             aria-labelledby="orgs-title"
+             itemprop="hasPart" itemscope itemtype="https://schema.org/ItemList">
+      <div class="section-title">github</div>
+      <h2 class="section-h2" id="orgs-title">15 Organizations</h2>
+      <p class="section-sub">Every BlackRoad organization on GitHub &mdash; click to explore.</p>
+      <meta itemprop="numberOfItems" content="15">
+      <nav class="orgs-grid" aria-label="BlackRoad GitHub organizations">
+        <a class="org-card" href="https://github.com/Blackbox-Enterprises"  target="_blank" rel="noopener noreferrer" itemprop="url">Blackbox-Enterprises  <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-AI"           target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-AI          <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Archive"      target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Archive     <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Cloud"        target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Cloud       <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Education"    target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Education   <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Foundation"   target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Foundation  <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Gov"          target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Gov         <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Hardware"     target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Hardware    <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Interactive"  target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Interactive <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Labs"         target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Labs        <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Media"        target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Media       <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-OS"           target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-OS          <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Security"     target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Security    <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Studio"       target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Studio      <span class="oc-arrow">&#x2197;</span></a>
+        <a class="org-card" href="https://github.com/BlackRoad-Ventures"     target="_blank" rel="noopener noreferrer" itemprop="url">BlackRoad-Ventures    <span class="oc-arrow">&#x2197;</span></a>
+      </nav>
+    </section>
+
+    <!-- Domains -->
+    <section id="domains" class="domains-section"
+             aria-labelledby="domains-title"
+             itemprop="hasPart" itemscope itemtype="https://schema.org/ItemList">
+      <div class="section-title">registered domains</div>
+      <h2 class="section-h2" id="domains-title">19 Domains</h2>
+      <p class="section-sub">Every BlackRoad domain &mdash; click to visit.</p>
+      <meta itemprop="numberOfItems" content="19">
+      <div class="domains-grid" role="list" aria-label="BlackRoad registered domains">
+        <a class="domain-link" href="https://blackboxprogramming.io" target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackboxprogramming.io</a>
+        <a class="domain-link" href="https://blackroad.company"      target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroad.company</a>
+        <a class="domain-link" href="https://blackroad.io"           target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroad.io</a>
+        <a class="domain-link" href="https://blackroad.me"           target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroad.me</a>
+        <a class="domain-link" href="https://blackroad.network"      target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroad.network</a>
+        <a class="domain-link" href="https://blackroad.systems"      target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroad.systems</a>
+        <a class="domain-link" href="https://blackroadai.com"        target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadai.com</a>
+        <a class="domain-link" href="https://blackroadinc.us"        target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadinc.us</a>
+        <a class="domain-link" href="https://blackroadqi.com"        target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadqi.com</a>
+        <a class="domain-link" href="https://blackroadquantum.com"   target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadquantum.com</a>
+        <a class="domain-link" href="https://blackroadquantum.info"  target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadquantum.info</a>
+        <a class="domain-link" href="https://blackroadquantum.net"   target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadquantum.net</a>
+        <a class="domain-link" href="https://blackroadquantum.shop"  target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadquantum.shop</a>
+        <a class="domain-link" href="https://blackroadquantum.store" target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">blackroadquantum.store</a>
+        <a class="domain-link" href="https://lucidia.earth"          target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">lucidia.earth</a>
+        <a class="domain-link" href="https://lucidia.studio"         target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">lucidia.studio</a>
+        <a class="domain-link" href="https://lucidiaqi.com"          target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">lucidiaqi.com</a>
+        <a class="domain-link" href="https://roadchain.io"           target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">roadchain.io</a>
+        <a class="domain-link" href="https://roadcoin.io"            target="_blank" rel="noopener noreferrer" role="listitem" itemprop="url">roadcoin.io</a>
+      </div>
+    </section>
+
     <aside class="seo-section" aria-label="BlackRoad technology keywords">
       <h2>Technologies &amp; Keywords</h2>
       <div class="seo-tags" role="list">
@@ -692,9 +826,159 @@
   </main>
 
   <footer role="contentinfo" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-    <span itemprop="legalName">BlackRoad OS, Inc. — Delaware C-Corp</span>
-    <span>1 enterprise · 15 orgs · 19 domains</span>
+    <span itemprop="legalName">BlackRoad OS, Inc. &mdash; Delaware C-Corp</span>
+    <span>1 enterprise &middot; 15 orgs &middot; 19 domains</span>
   </footer>
+
+  <script>
+    // In-browser demo: simulates the BlackRoad AI Memory Bridge
+    // Uses a lightweight word-overlap similarity approach (mirrors the
+    // deterministic pseudo-embedding concept from the Python library).
+
+    var _memories = [];
+
+    function hashCode(str) {
+      var hash = 0;
+      for (var i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+      }
+      return hash;
+    }
+
+    function pseudoEmbed(text) {
+      var words = text.toLowerCase().split(/\s+/).filter(Boolean);
+      var vec = new Array(32).fill(0);
+      for (var wordIndex = 0; wordIndex < words.length; wordIndex++) {
+        var hash = hashCode(words[wordIndex]);
+        for (var i = 0; i < 32; i++) {
+          vec[i] += ((hash >> (i % 16)) & 1) ? 1 : -1;
+        }
+      }
+      var norm = Math.sqrt(vec.reduce(function(s, v) { return s + v * v; }, 0)) || 1;
+      return vec.map(function(v) { return v / norm; });
+    }
+
+    function cosineSim(vec1, vec2) {
+      var dot = 0;
+      for (var i = 0; i < vec1.length; i++) dot += vec1[i] * vec2[i];
+      return Math.max(0, dot);
+    }
+
+    function shortId() {
+      return Math.random().toString(16).slice(2, 10);
+    }
+
+    function typeColor(t) {
+      var colors = {semantic:'#9C27B0', episodic:'#FF1D6C', working:'#F5A623', procedural:'#2979FF'};
+      return colors[t] || '#aaa';
+    }
+
+    function barHtml(sim) {
+      var pct = Math.round(sim * 100);
+      var color = sim > 0.6 ? '#FF1D6C' : sim > 0.35 ? '#F5A623' : '#2979FF';
+      return '<span style="display:inline-block;background:' + color + ';height:6px;width:' + pct + 'px;vertical-align:middle;margin-left:6px"></span>' +
+             ' <span style="color:#666">' + pct + '%</span>';
+    }
+
+    function switchTab(name) {
+      ['store','search','list'].forEach(function(t) {
+        document.getElementById('pane-' + t).classList.toggle('active', t === name);
+        var btn = document.getElementById('tab-' + t);
+        btn.classList.toggle('active', t === name);
+        btn.setAttribute('aria-selected', t === name ? 'true' : 'false');
+      });
+      if (name === 'list') listMemories();
+    }
+
+    function storeMemory() {
+      var content = document.getElementById('store-content').value.trim();
+      var type    = document.getElementById('store-type').value;
+      var out     = document.getElementById('store-output');
+      if (!content) {
+        out.innerHTML = '<span class="pink">&#x2717; Please type something to remember first.</span>';
+        return;
+      }
+      var id  = shortId();
+      var vec = pseudoEmbed(content);
+      _memories.push({
+        id: id, content: content, type: type, vec: vec,
+        importance: (0.5 + Math.random() * 0.5).toFixed(2),
+        created: new Date().toLocaleTimeString()
+      });
+      out.innerHTML =
+        '<span class="ok">&#x2713; Memory stored</span> ' +
+        '<span style="color:' + typeColor(type) + '">[' + type + ']</span> ' +
+        '<span style="color:#555">' + id + '</span><br>' +
+        '<span class="dim">  content   : </span><span style="color:#ddd">' + content + '</span><br>' +
+        '<span class="dim">  type      : </span><span style="color:' + typeColor(type) + '">' + type + '</span><br>' +
+        '<span class="dim">  stored at : </span><span class="info">' + new Date().toLocaleTimeString() + '</span><br>' +
+        '<span class="dim">  total     : </span><span class="sim">' + _memories.length + ' memor' + (_memories.length === 1 ? 'y' : 'ies') + ' in session</span>';
+      document.getElementById('store-content').value = '';
+    }
+
+    function searchMemories() {
+      var query = document.getElementById('search-query').value.trim();
+      var out   = document.getElementById('search-output');
+      if (!query) {
+        out.innerHTML = '<span class="pink">&#x2717; Enter a search query first.</span>';
+        return;
+      }
+      if (_memories.length === 0) {
+        out.innerHTML = '<span class="pink">&#x2717; No memories yet &mdash; go to the Store tab first.</span>';
+        return;
+      }
+      var qvec = pseudoEmbed(query);
+      var scored = _memories.map(function(memory) {
+        return { memory: memory, sim: cosineSim(qvec, memory.vec) };
+      }).sort(function(a, b) { return b.sim - a.sim; });
+
+      var html = '<span class="info">&#x2500;&#x2500; Search: ' + query + ' &#x2500;&#x2500;</span><br><br>';
+      scored.forEach(function(r, i) {
+        html +=
+          '<div class="mem-card">' +
+          '<div class="mem-type">' + (i + 1) + '. [' + r.memory.type + '] ' + r.memory.id +
+          ' sim=' + r.sim.toFixed(3) + barHtml(r.sim) + '</div>' +
+          '<div class="mem-content">' + r.memory.content + '</div>' +
+          '<div class="mem-meta">importance=' + r.memory.importance + ' &middot; ' + r.memory.created + '</div>' +
+          '</div>';
+      });
+      out.innerHTML = html;
+    }
+
+    function listMemories() {
+      var out = document.getElementById('list-output');
+      if (_memories.length === 0) {
+        out.innerHTML = '<span class="dim">// No memories yet &mdash; store something first.</span>';
+        return;
+      }
+      var html = '<span class="info">&#x2500;&#x2500; ' + _memories.length + ' memor' +
+                 (_memories.length === 1 ? 'y' : 'ies') + ' &#x2500;&#x2500;</span><br><br>';
+      _memories.forEach(function(m) {
+        html +=
+          '<div class="mem-card">' +
+          '<div class="mem-type">[' + m.type + '] ' + m.id + '</div>' +
+          '<div class="mem-content">' + m.content + '</div>' +
+          '<div class="mem-meta">importance=' + m.importance + ' &middot; ' + m.created + '</div>' +
+          '</div>';
+      });
+      out.innerHTML = html;
+    }
+
+    function clearMemories() {
+      _memories = [];
+      document.getElementById('list-output').innerHTML =
+        '<span class="ok">&#x2713; All memories cleared.</span>';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('store-content').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') storeMemory();
+      });
+      document.getElementById('search-query').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchMemories();
+      });
+    });
+  </script>
 
 </body>
 </html>

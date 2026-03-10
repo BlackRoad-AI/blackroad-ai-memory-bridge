@@ -1,10 +1,33 @@
-# blackroad-ai-memory-bridge
+# BlackRoad AI Memory Bridge
 
-> **BlackRoad AI Memory Bridge** — Vector store interface, semantic search, and memory consolidation for AI agents. Persistent episodic, semantic, working, and procedural memory with deterministic embeddings.
+> Give your AI a memory — persistent, searchable, and always ready.
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://python.org)
-[![BlackRoad AI](https://img.shields.io/badge/BlackRoad-AI-FF1D6C)](https://blackroad.ai)
+[![BlackRoad AI](https://img.shields.io/badge/BlackRoad-AI-FF1D6C)](https://blackroadai.com)
 [![License](https://img.shields.io/badge/license-Proprietary-black)](LICENSE)
+
+---
+
+## 👆 Try it now — no install needed
+
+**[▶ Open the live demo →](https://blackroad-ai.github.io/blackroad-ai-memory-bridge/)**
+
+Click the link above. Type something. Watch it work. That's it.
+
+- 🌐 [blackroadai.com](https://blackroadai.com) — main portal
+- 🤖 [lucidia.earth](https://lucidia.earth) — meet Lucidia, our AI assistant
+- 🔗 [blackroad.io](https://blackroad.io) — BlackRoad home
+- 💻 [GitHub](https://github.com/BlackRoad-AI/blackroad-ai-memory-bridge) — source code
+
+---
+
+## What is this?
+
+Imagine your AI assistant could **remember things** — not just within a single conversation, but across every conversation, forever. That's what this library does.
+
+You give it a piece of information. It stores it. Later, you (or your AI) can search for it by meaning — not just exact words. Ask "what did I say about programming?" and it finds "I prefer Python for backend work" even though those words don't all match.
+
+No cloud needed. No GPU. No paid API. It runs locally on your computer and stores everything in a simple file.
 
 ---
 
