@@ -1,3 +1,11 @@
+# blackroad-ai-memory-bridge
+
+> [MEMORY] system integration for BlackRoad AI models - enables collaboration and context
+
+Part of the [BlackRoad OS](https://blackroad.io) ecosystem — [BlackRoad-AI](https://github.com/BlackRoad-AI)
+
+---
+
 # Blackroad Ai Memory Bridge
 
 [MEMORY] system integration for BlackRoad AI models - enables collaboration and context
